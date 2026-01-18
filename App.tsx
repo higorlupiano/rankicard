@@ -273,7 +273,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4 overflow-hidden relative">
+    <div className="min-h-[100dvh] bg-black flex items-center justify-center p-4 overflow-auto relative">
       {/* Global Background */}
       <div className="absolute inset-0 z-0 opacity-40">
         <img
