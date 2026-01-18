@@ -20,7 +20,7 @@ export const HeaderBanner: React.FC<HeaderBannerProps> = ({ title }) => {
                     clipPath: "polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%, 5% 50%)"
                 }}
             />
-            <h1 className="relative z-10 text-yellow-100 font-rpg font-bold text-xl tracking-[0.2em] text-shadow-red uppercase">
+            <h1 className="relative z-10 text-yellow-100 font-rpg font-bold text-sm md:text-base tracking-[0.15em] text-shadow-red uppercase">
                 {title}
             </h1>
 

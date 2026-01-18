@@ -40,10 +40,13 @@ export function useAuth() {
     }, []);
 
     const signInWithGoogle = useCallback(async () => {
+        // Use Vercel URL for OAuth redirect (works on both web and Android)
+        const redirectUrl = 'https://rankicard.vercel.app';
+
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: window.location.origin,
+                redirectTo: redirectUrl,
             },
         });
         if (error) {

@@ -348,7 +348,7 @@ export default function App() {
             </div>
 
             {/* Tab Content Display */}
-            <div className="flex-1 bg-black/5 rounded-lg border border-[#8a1c1c]/20 p-4 mb-4 backdrop-blur-sm min-h-[100px] overflow-auto">
+            <div className="flex-1 bg-black/5 rounded-lg border border-[#8a1c1c]/20 p-4 mb-4 backdrop-blur-sm min-h-[150px] overflow-auto">
               {activeTab === 'stats' && (
                 <div className="animate-fade-in space-y-4">
                   <div className="text-center">
