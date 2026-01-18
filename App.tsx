@@ -35,6 +35,24 @@ export default function App() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [sessionXP, setSessionXP] = useState(0);
 
+  // Timer countdown effect - runs in App.tsx so it persists
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    if (isStudying && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+    } else if (isStudying && timeLeft === 0) {
+      // Timer completed
+      setIsStudying(false);
+      addStudyXP(sessionXP);
+      setLogMsg(`✅ +${sessionXP} XP de Estudos!`);
+    }
+
+    return () => clearInterval(interval);
+  }, [isStudying, timeLeft, sessionXP, addStudyXP]);
+
   // Handle Strava OAuth callback
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);

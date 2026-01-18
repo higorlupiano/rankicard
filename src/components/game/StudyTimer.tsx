@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { formatTime, SESSION_SHORT_MIN, SESSION_LONG_MIN, XP_PER_MINUTE_STUDY, STUDY_DAILY_CAP } from '../../utils/gameLogic';
 
 interface StudyTimerProps {
@@ -9,14 +9,13 @@ interface StudyTimerProps {
     isStudying: boolean;
     setIsStudying: (v: boolean) => void;
     timeLeft: number;
-    setTimeLeft: (v: number | ((prev: number) => number)) => void;
+    setTimeLeft: (v: number) => void;
     sessionXP: number;
     setSessionXP: (v: number) => void;
 }
 
 export const StudyTimer: React.FC<StudyTimerProps> = ({
     todayStudyXP,
-    onComplete,
     onLog,
     isStudying,
     setIsStudying,
@@ -25,31 +24,6 @@ export const StudyTimer: React.FC<StudyTimerProps> = ({
     sessionXP,
     setSessionXP
 }) => {
-    const completedRef = useRef(false);
-
-    // Timer countdown
-    useEffect(() => {
-        let interval: NodeJS.Timeout;
-
-        if (isStudying && timeLeft > 0) {
-            interval = setInterval(() => {
-                setTimeLeft((prev: number) => prev - 1);
-            }, 1000);
-        } else if (isStudying && timeLeft === 0 && !completedRef.current) {
-            completedRef.current = true;
-            completeSession();
-        }
-
-        return () => clearInterval(interval);
-    }, [isStudying, timeLeft]);
-
-    // Reset completedRef when starting new session
-    useEffect(() => {
-        if (isStudying && timeLeft > 0) {
-            completedRef.current = false;
-        }
-    }, [isStudying]);
-
     const startSession = (minutes: number) => {
         const potentialXP = minutes * XP_PER_MINUTE_STUDY;
 
@@ -64,16 +38,9 @@ export const StudyTimer: React.FC<StudyTimerProps> = ({
         onLog(`📚 Sessão de ${minutes}min iniciada!`);
     };
 
-    const completeSession = () => {
-        setIsStudying(false);
-        onComplete(sessionXP);
-        onLog(`✅ +${sessionXP} XP de Estudos!`);
-    };
-
     const cancelSession = () => {
         setIsStudying(false);
         setTimeLeft(0);
-        completedRef.current = false;
         onLog('❌ Sessão cancelada.');
     };
 
