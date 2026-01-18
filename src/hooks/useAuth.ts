@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
 import { User, Session } from '@supabase/supabase-js';
+import { Capacitor } from '@capacitor/core';
 
 interface AuthState {
     user: User | null;
@@ -40,8 +41,11 @@ export function useAuth() {
     }, []);
 
     const signInWithGoogle = useCallback(async () => {
-        // Use Vercel URL for OAuth redirect (works on both web and Android)
-        const redirectUrl = 'https://rankicard.vercel.app';
+        // Use custom URL scheme for Android, web URL for browser
+        const isNative = Capacitor.isNativePlatform();
+        const redirectUrl = isNative
+            ? 'com.rankicard.app://auth/callback'
+            : 'https://rankicard.vercel.app';
 
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',

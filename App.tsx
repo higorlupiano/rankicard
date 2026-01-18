@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingBag, Scroll, LogOut } from 'lucide-react';
 import QRCode from 'react-qr-code';
+import { App as CapacitorApp } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
 
 // Types
 import { Tab } from './src/types';
@@ -52,6 +54,71 @@ export default function App() {
 
     return () => clearInterval(interval);
   }, [isStudying, timeLeft, sessionXP, addStudyXP]);
+
+  // Handle deep link for OAuth callback (Android)
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return;
+
+    // Handle app opened via deep link
+    CapacitorApp.addListener('appUrlOpen', async ({ url }) => {
+      console.log('Deep link received:', url);
+
+      // Check if this is our OAuth callback
+      if (url.startsWith('com.rankicard.app://auth/callback')) {
+        // The URL contains the auth tokens in the fragment (after #)
+        // Supabase handles this automatically via onAuthStateChange
+        // We just need to ensure the app processes the URL
+
+        // Extract the fragment (everything after #)
+        const hashIndex = url.indexOf('#');
+        if (hashIndex !== -1) {
+          const fragment = url.substring(hashIndex + 1);
+          // Convert fragment to URL params format for Supabase to handle
+          const params = new URLSearchParams(fragment);
+          const accessToken = params.get('access_token');
+          const refreshToken = params.get('refresh_token');
+
+          if (accessToken && refreshToken) {
+            // Let Supabase handle the session
+            const { supabase } = await import('./src/lib/supabase');
+            await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken,
+            });
+          }
+        }
+      }
+    });
+
+    // Check if app was opened with a URL (cold start)
+    CapacitorApp.getLaunchUrl().then(async (result) => {
+      if (result?.url) {
+        console.log('App launched with URL:', result.url);
+
+        if (result.url.startsWith('com.rankicard.app://auth/callback')) {
+          const hashIndex = result.url.indexOf('#');
+          if (hashIndex !== -1) {
+            const fragment = result.url.substring(hashIndex + 1);
+            const params = new URLSearchParams(fragment);
+            const accessToken = params.get('access_token');
+            const refreshToken = params.get('refresh_token');
+
+            if (accessToken && refreshToken) {
+              const { supabase } = await import('./src/lib/supabase');
+              await supabase.auth.setSession({
+                access_token: accessToken,
+                refresh_token: refreshToken,
+              });
+            }
+          }
+        }
+      }
+    });
+
+    return () => {
+      CapacitorApp.removeAllListeners();
+    };
+  }, []);
 
   // Handle Strava OAuth callback
   useEffect(() => {
