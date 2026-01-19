@@ -368,7 +368,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-black flex items-start justify-center p-2 sm:p-4 overflow-auto relative">
+    <div className="min-h-[100dvh] max-h-[100dvh] bg-black flex items-start justify-center p-2 sm:p-4 overflow-hidden relative">
       {/* Global Background */}
       <div className="absolute inset-0 z-0 opacity-40">
         <img
@@ -404,16 +404,16 @@ export default function App() {
         </div>
 
         {/* Layer 2: The Content Container */}
-        <div className="relative z-20 flex flex-col pt-6 pb-24 px-4 sm:px-8">
+        <div className="relative z-20 flex flex-col pt-4 pb-16 px-4 sm:px-6">
 
           {/* Header Banner - Always visible */}
           <HeaderBanner title={`${title} - Rank ${rank}`} />
 
           {/* PROFILE TAB - Shows full profile with stats, avatar, progress, and logout */}
           {activeTab === 'stats' && (
-            <div className="animate-fade-in min-h-[420px] overflow-y-auto">
+            <div className="animate-fade-in min-h-[320px] max-h-[60vh] overflow-y-auto">
               {/* Player Name */}
-              <div className="text-center mb-4">
+              <div className="text-center mb-2">
                 <h2 className="text-4xl md:text-5xl font-rpg font-black text-transparent bg-clip-text bg-gradient-to-b from-[#5c4033] to-[#2c1810] drop-shadow-sm mb-1">
                   {profile?.display_name?.split(' ')[0] || user.email?.split('@')[0] || 'Aventureiro'}
                 </h2>
@@ -423,16 +423,16 @@ export default function App() {
               </div>
 
               {/* Stats + Avatar Section */}
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-2">
                 {/* Stats Column */}
-                <div className="flex flex-col gap-4 w-1/3 pt-2">
+                <div className="flex flex-col gap-2 w-1/3 pt-1">
                   <StatBox label="NÍVEL ATUAL" value={currentLevel} delay={100} />
                   <StatBox label="TOTAL XP" value={Math.floor(totalXP)} delay={200} />
                   <StatBox label="FADIGA" value={`${todayStudyXP}/${STUDY_DAILY_CAP}`} delay={300} />
                 </div>
 
                 {/* Avatar Column */}
-                <div className="w-2/3 pl-4 pt-2 relative">
+                <div className="w-2/3 pl-3 pt-1 relative">
                   <AvatarFrame
                     avatarUrl={currentAvatarUrl}
                     rank={rank}
@@ -443,13 +443,13 @@ export default function App() {
               </div>
 
               {/* Progress Bar */}
-              <div className="text-center mb-4">
+              <div className="text-center mb-2">
                 <p className="font-rpg text-[#5c4033] mb-2">Progresso do Nível</p>
                 <ProgressBar current={xpInLevel} max={xpRequired} />
               </div>
 
               {/* Log Message */}
-              <div className="bg-black/80 text-green-400 p-2 rounded font-mono text-xs border border-gray-700 text-center mb-4">
+              <div className="bg-black/80 text-green-400 p-1.5 rounded font-mono text-xs border border-gray-700 text-center mb-2">
                 {logMsg}
               </div>
 
@@ -466,7 +466,7 @@ export default function App() {
 
           {/* SHOP TAB - Full screen content */}
           {activeTab === 'shop' && (
-            <div className="flex-1 flex flex-col items-center justify-center animate-fade-in text-[#5c4033] min-h-[420px]">
+            <div className="flex-1 flex flex-col items-center justify-center animate-fade-in text-[#5c4033] min-h-[320px] max-h-[60vh]">
               <ShoppingBag size={64} className="mb-4 opacity-50" />
               <p className="font-rpg text-lg">Loja em breve...</p>
               <p className="font-rpg text-sm opacity-70 mt-2">Itens e upgrades estarão disponíveis aqui</p>
@@ -475,7 +475,7 @@ export default function App() {
 
           {/* INTEGRATIONS TAB - Full screen content */}
           {activeTab === 'integrations' && (
-            <div className="flex-1 animate-fade-in space-y-4 min-h-[420px] overflow-y-auto">
+            <div className="flex-1 animate-fade-in space-y-3 min-h-[320px] max-h-[60vh] overflow-y-auto">
               <h2 className="font-rpg text-xl text-[#5c4033] text-center mb-4">Integrações</h2>
               <StravaPanel
                 connected={!!profile?.strava_refresh_token}
@@ -500,7 +500,7 @@ export default function App() {
 
           {/* QR CODE TAB - Full screen content */}
           {activeTab === 'qr' && (
-            <div className="flex-1 flex flex-col items-center justify-center animate-fade-in min-h-[420px]">
+            <div className="flex-1 flex flex-col items-center justify-center animate-fade-in min-h-[320px] max-h-[60vh]">
               <h2 className="font-rpg text-xl text-[#5c4033] mb-6">Seu QR Code</h2>
               <div className="bg-white p-6 rounded-lg border-4 border-[#8a1c1c] shadow-lg">
                 <QRCode

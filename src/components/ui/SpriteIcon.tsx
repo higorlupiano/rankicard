@@ -20,7 +20,7 @@ export const SpriteIcon: React.FC<SpriteIconProps> = ({ icon, label, isActive, o
 
             {/* The Icon Container - Simulating the Gold Circle from Image 3 */}
             <div className={`
-        relative w-16 h-16 rounded-full border-2 
+        relative w-12 h-12 rounded-full border-2 
         flex items-center justify-center shadow-lg bg-gradient-to-b
         ${isActive
                     ? 'border-yellow-200 from-yellow-700 to-yellow-900 shadow-yellow-500/50'
@@ -36,7 +36,7 @@ export const SpriteIcon: React.FC<SpriteIconProps> = ({ icon, label, isActive, o
             </div>
 
             {/* Label */}
-            <span className={`mt-2 text-[10px] font-rpg font-bold tracking-widest uppercase transition-colors ${isActive ? 'text-yellow-200 text-shadow-gold' : 'text-yellow-800/70'}`}>
+            <span className={`mt-1 text-[9px] font-rpg font-bold tracking-widest uppercase transition-colors ${isActive ? 'text-yellow-200 text-shadow-gold' : 'text-yellow-800/70'}`}>
                 {label}
             </span>
         </button>
