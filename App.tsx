@@ -389,7 +389,7 @@ export default function App() {
       </button>
 
       {/* --- THE CARD --- */}
-      <div className="relative w-full max-w-[420px] aspect-[9/16] md:aspect-auto md:min-h-[800px] shadow-2xl z-10 overflow-visible">
+      <div className="relative w-full max-w-[420px] min-h-[600px] h-auto shadow-2xl z-10 overflow-visible">
 
         {/* Layer 1: The Parchment Background */}
         <div className="absolute inset-2 md:inset-3 bg-[#e6d5ac] overflow-visible rounded-sm">
@@ -404,7 +404,7 @@ export default function App() {
         </div>
 
         {/* Layer 2: The Content Container */}
-        <div className="absolute inset-0 z-20 flex flex-col pt-12 pb-24 px-8 md:px-10 overflow-y-auto">
+        <div className="relative z-20 flex flex-col pt-8 pb-20 px-6 md:px-10 min-h-full">
 
           {/* Header Banner */}
           <HeaderBanner title={`${title} - Rank ${rank}`} />
@@ -420,7 +420,7 @@ export default function App() {
           </div>
 
           {/* Main Content Area */}
-          <div className="flex-1 relative flex flex-col overflow-hidden">
+          <div className="flex-1 relative flex flex-col">
 
             {/* Top Section: Stats + Avatar */}
             <div className="flex items-center justify-between mb-4">
