@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
 import { User, Session } from '@supabase/supabase-js';
-import { Capacitor } from '@capacitor/core';
 
 interface AuthState {
     user: User | null;
@@ -41,32 +40,20 @@ export function useAuth() {
     }, []);
 
     const signInWithGoogle = useCallback(async () => {
-        // Use custom URL scheme for Android, web URL for browser
-        const isNative = Capacitor.isNativePlatform();
-        const redirectUrl = isNative
-            ? 'com.rankicard.app://auth/callback'
-            : 'https://rankicard.vercel.app';
+        // Always redirect to web URL
+        // The web app will detect mobile browser and redirect to native app
+        const redirectUrl = 'https://rankicard.vercel.app';
 
-        const { data, error } = await supabase.auth.signInWithOAuth({
+        const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
                 redirectTo: redirectUrl,
-                skipBrowserRedirect: isNative, // Skip auto redirect for native apps
             },
         });
 
         if (error) {
             console.error('Error signing in:', error);
             throw error;
-        }
-
-        // For native platforms, open browser manually
-        if (isNative && data?.url) {
-            const { Browser } = await import('@capacitor/browser');
-            await Browser.open({
-                url: data.url,
-                windowName: '_self',
-            });
         }
     }, []);
 

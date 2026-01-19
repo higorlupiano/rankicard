@@ -37,6 +37,27 @@ export default function App() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [sessionXP, setSessionXP] = useState(0);
 
+  // Handle OAuth redirect from web to native app (when accessed via mobile browser)
+  useEffect(() => {
+    // Skip if running in native app
+    if (Capacitor.isNativePlatform()) return;
+
+    // Check if there are OAuth tokens in the URL hash
+    const hash = window.location.hash;
+    if (hash && hash.includes('access_token')) {
+      // Check if this is a mobile browser (Android or iOS)
+      const isMobileWeb = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+      if (isMobileWeb) {
+        // Redirect to native app with the OAuth tokens
+        const appUrl = `com.rankicard.app://auth/callback${hash}`;
+        console.log('Redirecting to native app:', appUrl);
+        window.location.href = appUrl;
+        return;
+      }
+    }
+  }, []);
+
   // Timer countdown effect - runs in App.tsx so it persists
   useEffect(() => {
     let interval: NodeJS.Timeout;
