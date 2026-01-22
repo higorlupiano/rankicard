@@ -11,7 +11,7 @@ export const SpriteIcon: React.FC<SpriteIconProps> = ({ icon, label, isActive, o
     return (
         <button
             onClick={onClick}
-            className={`group relative flex flex-col items-center justify-center transition-all duration-300 ${isActive ? 'scale-110 -translate-y-2' : 'hover:scale-105 hover:-translate-y-1'}`}
+            className={`group relative flex flex-col items-center justify-center transition-all duration-300 w-[58px] ${isActive ? 'scale-110 -translate-y-2' : 'hover:scale-105 hover:-translate-y-1'}`}
         >
             {/* Glow Effect behind active icon */}
             {isActive && (
@@ -36,7 +36,7 @@ export const SpriteIcon: React.FC<SpriteIconProps> = ({ icon, label, isActive, o
             </div>
 
             {/* Label */}
-            <span className={`mt-1 text-[9px] font-rpg font-bold tracking-widest uppercase transition-colors ${isActive ? 'text-yellow-200 text-shadow-gold' : 'text-yellow-800/70'}`}>
+            <span className={`mt-1 text-[7px] font-rpg font-bold tracking-wide uppercase transition-colors text-center leading-tight ${isActive ? 'text-yellow-200 text-shadow-gold' : 'text-yellow-800/70'}`}>
                 {label}
             </span>
         </button>
