@@ -311,6 +311,11 @@ export default function App() {
         { headers: { 'Authorization': `Bearer ${accessToken}` } }
       );
 
+      // Activate cooldown IMMEDIATELY after API request (to respect rate limits)
+      const cooldownEnd = Date.now() + STRAVA_COOLDOWN_SECONDS * 1000;
+      localStorage.setItem('stravaSyncCooldownEnd', cooldownEnd.toString());
+      setStravaCooldownRemaining(STRAVA_COOLDOWN_SECONDS);
+
       if (!activitiesRes.ok) {
         setSyncMsg('❌ Erro ao buscar atividades');
         return;
@@ -376,11 +381,6 @@ export default function App() {
       }
 
       refreshProfile();
-
-      // Activate cooldown after successful sync
-      const cooldownEnd = Date.now() + STRAVA_COOLDOWN_SECONDS * 1000;
-      localStorage.setItem('stravaSyncCooldownEnd', cooldownEnd.toString());
-      setStravaCooldownRemaining(STRAVA_COOLDOWN_SECONDS);
 
     } catch (error) {
       console.error('Sync error:', error);
