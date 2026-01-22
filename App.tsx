@@ -580,7 +580,7 @@ export default function App() {
 
           {/* PROFILE TAB - Shows full profile with stats, avatar, progress, and logout */}
           {activeTab === 'stats' && (
-            <div className="animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
+            <div className="animate-fade-in h-[480px] overflow-y-auto overflow-x-hidden custom-scrollbar landscape-content">
               {/* Player Name */}
               <div className="text-center mb-4">
                 <h2 className="text-4xl md:text-5xl font-rpg font-black text-transparent bg-clip-text bg-gradient-to-b from-[#5c4033] to-[#2c1810] drop-shadow-sm mb-1">
