@@ -18,12 +18,6 @@ export const FooterNav: React.FC<FooterNavProps> = ({ activeTab, onTabChange }) 
                 onClick={() => onTabChange('shop')}
             />
             <SpriteIcon
-                icon={<Target size={20} />}
-                label="Missões"
-                isActive={activeTab === 'missions'}
-                onClick={() => onTabChange('missions')}
-            />
-            <SpriteIcon
                 icon={<Scroll size={20} />}
                 label="Integrações"
                 isActive={activeTab === 'integrations'}
@@ -34,6 +28,12 @@ export const FooterNav: React.FC<FooterNavProps> = ({ activeTab, onTabChange }) 
                 label="Perfil"
                 isActive={activeTab === 'stats'}
                 onClick={() => onTabChange('stats')}
+            />
+            <SpriteIcon
+                icon={<Target size={20} />}
+                label="Missões"
+                isActive={activeTab === 'missions'}
+                onClick={() => onTabChange('missions')}
             />
             <SpriteIcon
                 icon={<QrCode size={20} />}
