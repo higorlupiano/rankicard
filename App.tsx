@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Scroll, LogOut } from 'lucide-react';
+import { ShoppingBag, Scroll, LogOut, Coins } from 'lucide-react';
 import QRCode from 'react-qr-code';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
@@ -19,7 +19,7 @@ import { StatBox, ProgressBar } from './src/components/ui';
 import { HeaderBanner, FooterNav } from './src/components/layout';
 import { AvatarFrame } from './src/components/player';
 import { LoginScreen } from './src/components/auth';
-import { StudyTimer, StravaPanel, SpotifyPanel } from './src/components/game';
+import { StudyTimer, StravaPanel, SpotifyPanel, MissionsPanel } from './src/components/game';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
@@ -629,9 +629,33 @@ export default function App() {
           {/* SHOP TAB - Full screen content */}
           {activeTab === 'shop' && (
             <div className="w-full flex flex-col items-center justify-center animate-fade-in text-[#5c4033] h-[480px] overflow-y-auto custom-scrollbar landscape-content">
-              <ShoppingBag size={64} className="mb-4 opacity-50" />
+              {/* Gold Balance */}
+              <div className="flex items-center gap-2 mb-6 bg-gradient-to-r from-yellow-600 to-yellow-500 px-6 py-3 rounded-full shadow-lg">
+                <Coins size={28} className="text-yellow-100" />
+                <span className="font-rpg text-2xl font-bold text-white">
+                  {profile?.gold || 0}
+                </span>
+              </div>
+
+              <ShoppingBag size={48} className="mb-4 opacity-50" />
               <p className="font-rpg text-lg">Loja em breve...</p>
               <p className="font-rpg text-sm opacity-70 mt-2">Itens e upgrades estarão disponíveis aqui</p>
+            </div>
+          )}
+
+          {/* MISSIONS TAB - Full screen content */}
+          {activeTab === 'missions' && (
+            <div className="w-full animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
+              <MissionsPanel
+                userRank={rank}
+                userId={user.id}
+                onMissionComplete={async (xp, gold) => {
+                  await addXP(xp);
+                  await updateProfile({ gold: (profile?.gold || 0) + gold });
+                  refreshProfile();
+                }}
+                onLog={setLogMsg}
+              />
             </div>
           )}
 
