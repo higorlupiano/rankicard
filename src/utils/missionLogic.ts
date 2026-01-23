@@ -4,10 +4,8 @@ export interface Mission {
     title: string;
     description: string | null;
     rank: string;
-    xp_reward: number;
     gold_reward: number;
     mission_type: 'manual' | 'strava' | 'spotify' | 'study';
-    requirement_value: number | null;
     is_active: boolean;
 }
 

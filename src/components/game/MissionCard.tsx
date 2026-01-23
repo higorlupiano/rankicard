@@ -22,7 +22,7 @@ export const MissionCard: React.FC<MissionCardProps> = ({
     const rankColor = RANK_COLORS[mission.rank as Rank] || RANK_COLORS.F;
     const typeIcon = getMissionTypeIcon(mission.mission_type);
     const isCompleted = status === 'completed';
-    const displayXP = dynamicXP ?? mission.xp_reward;
+    const displayXP = dynamicXP ?? 0;
     const hasBonuses = bonuses.length > 0;
 
     return (
