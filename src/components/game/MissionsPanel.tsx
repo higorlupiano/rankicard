@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Target, RefreshCw } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Target, RefreshCw, Flame } from 'lucide-react';
 import { MissionCard } from './MissionCard';
 import {
     Mission,
     UserMission,
     selectMissionsForUser,
     Rank,
-    RANKS
+    RANKS,
+    calculateDynamicReward,
+    isWeekend
 } from '../../utils/missionLogic';
 import { supabase } from '../../lib/supabase';
 
 interface MissionsPanelProps {
     userRank: string;
+    userLevel: number;
     userId: string;
     onMissionComplete: (xp: number, gold: number) => void;
     onLog: (msg: string) => void;
@@ -19,6 +22,7 @@ interface MissionsPanelProps {
 
 export const MissionsPanel: React.FC<MissionsPanelProps> = ({
     userRank,
+    userLevel,
     userId,
     onMissionComplete,
     onLog,
@@ -108,7 +112,20 @@ export const MissionsPanel: React.FC<MissionsPanelProps> = ({
         }
     };
 
-    const handleComplete = async (mission: Mission & { userStatus: string }) => {
+    // Calculate dynamic rewards for each mission
+    const missionsWithRewards = useMemo(() => {
+        const validUserRank = RANKS.includes(userRank as Rank) ? userRank as Rank : 'F';
+        return missions.map(mission => {
+            const reward = calculateDynamicReward(
+                userLevel,
+                mission.rank as Rank,
+                validUserRank
+            );
+            return { ...mission, dynamicXP: reward.xp, bonuses: reward.bonuses };
+        });
+    }, [missions, userLevel, userRank]);
+
+    const handleComplete = async (mission: Mission & { userStatus: string; dynamicXP: number }) => {
         setCompletingId(mission.id);
         try {
             // Get the user_mission record
@@ -140,9 +157,9 @@ export const MissionsPanel: React.FC<MissionsPanelProps> = ({
                 )
             );
 
-            // Grant rewards
-            onMissionComplete(mission.xp_reward, mission.gold_reward);
-            onLog(`🎉 +${mission.xp_reward} XP e +${mission.gold_reward} Ouro!`);
+            // Grant dynamic rewards
+            onMissionComplete(mission.dynamicXP, mission.gold_reward);
+            onLog(`🎉 +${mission.dynamicXP} XP e +${mission.gold_reward} Ouro!`);
         } catch (error) {
             console.error('Error completing mission:', error);
             onLog('❌ Erro ao completar missão');
@@ -166,6 +183,11 @@ export const MissionsPanel: React.FC<MissionsPanelProps> = ({
                 <div className="flex items-center gap-2">
                     <Target size={20} className="text-[#8a1c1c]" />
                     <h3 className="font-rpg font-bold text-[#3e2723] text-lg">Missões Diárias</h3>
+                    {isWeekend() && (
+                        <span className="flex items-center gap-1 bg-orange-500 text-white px-2 py-0.5 rounded-full text-[9px] font-rpg font-bold">
+                            <Flame size={10} /> +50% FDS
+                        </span>
+                    )}
                 </div>
                 <span className="text-xs font-rpg text-[#5c4033]/70">
                     {missions.filter(m => m.userStatus === 'completed').length}/{missions.length}
@@ -173,15 +195,17 @@ export const MissionsPanel: React.FC<MissionsPanelProps> = ({
             </div>
 
             {/* Missions Grid */}
-            {missions.length > 0 ? (
+            {missionsWithRewards.length > 0 ? (
                 <div className="grid grid-cols-2 gap-3">
-                    {missions.map(mission => (
+                    {missionsWithRewards.map(mission => (
                         <MissionCard
                             key={mission.id}
                             mission={mission}
                             status={mission.userStatus}
                             onComplete={() => handleComplete(mission)}
                             isLoading={completingId === mission.id}
+                            dynamicXP={mission.dynamicXP}
+                            bonuses={mission.bonuses}
                         />
                     ))}
                 </div>

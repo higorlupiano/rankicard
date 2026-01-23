@@ -1,5 +1,5 @@
 import React from 'react';
-import { Coins, Sparkles, Check, Clock } from 'lucide-react';
+import { Coins, Sparkles, Check, Clock, Flame } from 'lucide-react';
 import { Mission, RANK_COLORS, getMissionTypeIcon, Rank } from '../../utils/missionLogic';
 
 interface MissionCardProps {
@@ -7,6 +7,8 @@ interface MissionCardProps {
     status: 'pending' | 'completed' | 'expired';
     onComplete: () => void;
     isLoading?: boolean;
+    dynamicXP?: number;
+    bonuses?: string[];
 }
 
 export const MissionCard: React.FC<MissionCardProps> = ({
@@ -14,16 +16,20 @@ export const MissionCard: React.FC<MissionCardProps> = ({
     status,
     onComplete,
     isLoading = false,
+    dynamicXP,
+    bonuses = [],
 }) => {
     const rankColor = RANK_COLORS[mission.rank as Rank] || RANK_COLORS.F;
     const typeIcon = getMissionTypeIcon(mission.mission_type);
     const isCompleted = status === 'completed';
+    const displayXP = dynamicXP ?? mission.xp_reward;
+    const hasBonuses = bonuses.length > 0;
 
     return (
         <div
             className={`relative bg-gradient-to-br from-[#f5e6c8] to-[#e6d5ac] rounded-lg p-3 border-2 shadow-md transition-all ${isCompleted
-                    ? 'border-green-500/50 opacity-75'
-                    : 'border-[#8b6c42] hover:border-[#c8a95c]'
+                ? 'border-green-500/50 opacity-75'
+                : 'border-[#8b6c42] hover:border-[#c8a95c]'
                 }`}
         >
             {/* Rank Badge */}
@@ -33,6 +39,14 @@ export const MissionCard: React.FC<MissionCardProps> = ({
             >
                 {mission.rank}
             </div>
+
+            {/* Weekend/Bonus Indicator */}
+            {hasBonuses && !isCompleted && (
+                <div className="absolute -top-2 left-2 flex items-center gap-1 bg-orange-500 text-white px-2 py-0.5 rounded-full text-[9px] font-rpg font-bold shadow">
+                    <Flame size={10} />
+                    Bônus
+                </div>
+            )}
 
             {/* Mission Type Icon */}
             <div className="text-2xl mb-1">{typeIcon}</div>
@@ -50,16 +64,32 @@ export const MissionCard: React.FC<MissionCardProps> = ({
             )}
 
             {/* Rewards */}
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-3 mb-1">
                 <div className="flex items-center gap-1 text-xs">
                     <Sparkles size={12} className="text-purple-600" />
-                    <span className="font-rpg text-[#5c4033]">{mission.xp_reward} XP</span>
+                    <span className={`font-rpg ${hasBonuses ? 'text-orange-600 font-bold' : 'text-[#5c4033]'}`}>
+                        {displayXP} XP
+                    </span>
                 </div>
                 <div className="flex items-center gap-1 text-xs">
                     <Coins size={12} className="text-yellow-600" />
                     <span className="font-rpg text-[#5c4033]">{mission.gold_reward}</span>
                 </div>
             </div>
+
+            {/* Bonus Tags */}
+            {hasBonuses && !isCompleted && (
+                <div className="flex flex-wrap gap-1 mb-2">
+                    {bonuses.map((bonus, idx) => (
+                        <span
+                            key={idx}
+                            className="text-[8px] font-rpg bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded"
+                        >
+                            {bonus}
+                        </span>
+                    ))}
+                </div>
+            )}
 
             {/* Action Button */}
             {isCompleted ? (

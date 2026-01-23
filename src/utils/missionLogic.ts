@@ -95,17 +95,87 @@ export function selectMissionsForUser(
 }
 
 /**
- * Calculate bonus multiplier based on mission rank vs user rank
+ * Check if today is a weekend (Saturday or Sunday)
  */
-export function calculateBonusMultiplier(missionRank: Rank, userRank: Rank): number {
+export function isWeekend(): boolean {
+    const day = new Date().getDay();
+    return day === 0 || day === 6; // Sunday = 0, Saturday = 6
+}
+
+/**
+ * Get XP required to reach the next level (from gameLogic)
+ */
+export function getXpForNextLevel(level: number): number {
+    return 50 * (level * level);
+}
+
+/**
+ * Get XP required to go FROM current level TO next level
+ */
+export function getXpToNextLevel(currentLevel: number): number {
+    return getXpForNextLevel(currentLevel) - getXpForNextLevel(currentLevel - 1);
+}
+
+/**
+ * Get rank multiplier based on mission rank vs user rank
+ * -2 ranks: 0.50x | -1 rank: 0.75x | same: 1.00x | +1 rank: 1.25x
+ */
+export function getRankMultiplier(missionRank: Rank, userRank: Rank): number {
     const missionIndex = RANKS.indexOf(missionRank);
     const userIndex = RANKS.indexOf(userRank);
+    const diff = missionIndex - userIndex;
 
-    if (missionIndex > userIndex) {
-        // Harder mission = 25% bonus
-        return 1.25;
+    if (diff <= -2) return 0.50;
+    if (diff === -1) return 0.75;
+    if (diff === 0) return 1.00;
+    return 1.25; // +1 or higher
+}
+
+/**
+ * Calculate dynamic XP reward for a mission
+ * Base: 2% of XP needed for next level
+ * Adjusted by: rank multiplier and weekend bonus
+ */
+export function calculateDynamicReward(
+    userLevel: number,
+    missionRank: Rank,
+    userRank: Rank
+): { xp: number; baseXP: number; multiplier: number; isWeekend: boolean; bonuses: string[] } {
+    // Base XP = 2% of XP needed for next level
+    const xpToNext = getXpToNextLevel(userLevel);
+    const baseXP = Math.max(1, Math.floor(xpToNext * 0.02));
+
+    // Get rank multiplier
+    const rankMultiplier = getRankMultiplier(missionRank, userRank);
+
+    // Check weekend bonus
+    const weekend = isWeekend();
+    const weekendMultiplier = weekend ? 1.50 : 1.00;
+
+    // Calculate total multiplier
+    const totalMultiplier = rankMultiplier * weekendMultiplier;
+
+    // Build bonuses list for display
+    const bonuses: string[] = [];
+    if (rankMultiplier < 1) {
+        bonuses.push(`${Math.round(rankMultiplier * 100)}% Rank`);
+    } else if (rankMultiplier > 1) {
+        bonuses.push(`+${Math.round((rankMultiplier - 1) * 100)}% Rank`);
     }
-    return 1.0;
+    if (weekend) {
+        bonuses.push('+50% FDS');
+    }
+
+    // Final XP
+    const xp = Math.max(1, Math.floor(baseXP * totalMultiplier));
+
+    return {
+        xp,
+        baseXP,
+        multiplier: totalMultiplier,
+        isWeekend: weekend,
+        bonuses
+    };
 }
 
 /**

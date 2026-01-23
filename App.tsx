@@ -682,6 +682,7 @@ export default function App() {
             <div className="w-full animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
               <MissionsPanel
                 userRank={rank}
+                userLevel={currentLevel}
                 userId={user.id}
                 onMissionComplete={async (xp, gold) => {
                   await addXP(xp);
