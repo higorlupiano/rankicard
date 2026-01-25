@@ -16,7 +16,7 @@ interface ViewContainerProps {
  */
 
 // Altura padrão de todas as views - ALTERE AQUI PARA MUDANÇA GLOBAL
-const VIEW_HEIGHT = 'h-[520px]';
+const VIEW_HEIGHT = 'h-[560px]';
 
 // Classes base para todas as views
 const BASE_CLASSES = `w-full animate-fade-in overflow-y-auto overflow-x-hidden custom-scrollbar landscape-content`;
