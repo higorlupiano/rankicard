@@ -17,6 +17,7 @@ import { InventoryView } from './src/components/views/InventoryView';
 import { LeaderboardView } from './src/components/views/LeaderboardView';
 import { ActivityHistoryView } from './src/components/views/ActivityHistoryView';
 import { GuildView } from './src/components/views/GuildView';
+import { ThemesView } from './src/components/views/ThemesView';
 import { LevelUpAnimation } from './src/components/ui/LevelUpAnimation';
 import { OnboardingModal } from './src/components/ui/OnboardingModal';
 import { useLocalNotifications } from './src/hooks/useLocalNotifications';
@@ -166,6 +167,7 @@ function AppContent({ activeTab, setActiveTab }: { activeTab: Tab, setActiveTab:
           {activeTab === 'leaderboard' && <LeaderboardView />}
           {activeTab === 'history' && <ActivityHistoryView />}
           {activeTab === 'guilds' && <GuildView />}
+          {activeTab === 'themes' && <ThemesView />}
           {activeTab === 'admin' && <AdminView />}
 
         </div>
