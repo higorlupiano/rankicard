@@ -16,7 +16,7 @@ interface MissionsPanelProps {
     userRank: string;
     userLevel: number;
     userId: string;
-    onMissionComplete: (xp: number, gold: number) => void;
+    onMissionComplete: (xp: number, gold: number, missionName?: string) => void;
     onLog: (msg: string) => void;
 }
 
@@ -158,7 +158,7 @@ export const MissionsPanel: React.FC<MissionsPanelProps> = ({
             );
 
             // Grant dynamic rewards
-            onMissionComplete(mission.dynamicXP, mission.gold_reward);
+            onMissionComplete(mission.dynamicXP, mission.gold_reward, mission.title);
             onLog(`🎉 +${mission.dynamicXP} XP e +${mission.gold_reward} Ouro!`);
         } catch (error) {
             console.error('Error completing mission:', error);
