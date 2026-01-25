@@ -132,49 +132,68 @@ export function GameProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         if (!Capacitor.isNativePlatform()) return;
 
-        CapacitorApp.addListener('appUrlOpen', async ({ url }) => {
-            console.log('Deep link received:', url);
-            if (url.startsWith('com.rankicard.app://')) {
-                const hashIndex = url.indexOf('#');
-                if (hashIndex !== -1) {
-                    const fragment = url.substring(hashIndex + 1);
-                    const params = new URLSearchParams(fragment);
-                    const accessToken = params.get('access_token');
-                    const refreshToken = params.get('refresh_token');
+        const processDeepLink = async (url: string) => {
+            console.log('Processing deep link:', url);
 
-                    if (accessToken && refreshToken) {
-                        const { supabase } = await import('../lib/supabase');
-                        await supabase.auth.setSession({
-                            access_token: accessToken,
-                            refresh_token: refreshToken,
-                        });
+            if (!url.startsWith('com.rankicard.app://')) return;
 
-                        const { Browser } = await import('@capacitor/browser');
-                        await Browser.close();
-                    }
+            // Close browser FIRST
+            try {
+                const { Browser } = await import('@capacitor/browser');
+                await Browser.close();
+                console.log('Browser closed');
+            } catch (e) {
+                console.log('Browser close error (may be already closed):', e);
+            }
+
+            // Try to extract tokens from hash fragment (#access_token=...) or query params (?access_token=...)
+            let accessToken: string | null = null;
+            let refreshToken: string | null = null;
+
+            // Check hash fragment first (Supabase default)
+            const hashIndex = url.indexOf('#');
+            if (hashIndex !== -1) {
+                const fragment = url.substring(hashIndex + 1);
+                const params = new URLSearchParams(fragment);
+                accessToken = params.get('access_token');
+                refreshToken = params.get('refresh_token');
+            }
+
+            // If not found in hash, check query params
+            if (!accessToken) {
+                const queryIndex = url.indexOf('?');
+                if (queryIndex !== -1) {
+                    const query = url.substring(queryIndex + 1);
+                    const params = new URLSearchParams(query);
+                    accessToken = params.get('access_token');
+                    refreshToken = params.get('refresh_token');
                 }
             }
+
+            if (accessToken && refreshToken) {
+                console.log('Setting session with tokens');
+                const { supabase } = await import('../lib/supabase');
+                await supabase.auth.setSession({
+                    access_token: accessToken,
+                    refresh_token: refreshToken,
+                });
+                console.log('Session set successfully');
+            } else {
+                console.log('No tokens found in deep link');
+            }
+        };
+
+        // Listen for deep links while app is running
+        CapacitorApp.addListener('appUrlOpen', async ({ url }) => {
+            console.log('Deep link received (appUrlOpen):', url);
+            await processDeepLink(url);
         });
 
+        // Check if app was launched via deep link
         CapacitorApp.getLaunchUrl().then(async (result) => {
-            if (result?.url && result.url.startsWith('com.rankicard.app://')) {
-                const hashIndex = result.url.indexOf('#');
-                if (hashIndex !== -1) {
-                    const fragment = result.url.substring(hashIndex + 1);
-                    const params = new URLSearchParams(fragment);
-                    const accessToken = params.get('access_token');
-                    const refreshToken = params.get('refresh_token');
-
-                    if (accessToken && refreshToken) {
-                        const { supabase } = await import('../lib/supabase');
-                        await supabase.auth.setSession({
-                            access_token: accessToken,
-                            refresh_token: refreshToken,
-                        });
-                        const { Browser } = await import('@capacitor/browser');
-                        await Browser.close();
-                    }
-                }
+            if (result?.url) {
+                console.log('Deep link received (getLaunchUrl):', result.url);
+                await processDeepLink(result.url);
             }
         });
 
