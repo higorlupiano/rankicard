@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useGame } from '../../contexts/GameContext';
-import { getXpProgress, getRank, getTitle, STUDY_DAILY_CAP } from '../../utils/gameLogic';
+import { getXpProgress, getRank, getTitle, STUDY_DAILY_CAP, getStreakBonus, getStreakLabel } from '../../utils/gameLogic';
 import { StatBox, ProgressBar } from '../ui';
 import { AvatarFrame } from '../player';
+import { Flame, Coins } from 'lucide-react';
 
 export const StatsView = () => {
     const { user, profile, logMsg } = useGame();
@@ -14,13 +15,13 @@ export const StatsView = () => {
     const currentLevel = profile?.current_level || 1;
     const todayStudyXP = profile?.today_study_xp || 0;
     const currentAvatarUrl = avatarUrl || profile?.avatar_url;
+    const streakCount = profile?.streak_count || 0;
+    const gold = profile?.gold || 0;
 
     const { xpInLevel, xpRequired } = getXpProgress(totalXP, currentLevel);
     const rank = getRank(currentLevel);
-    // Title isn't used in the body of stats view in App.tsx, but it is in the header.
-    // The header remains in App.tsx or moves to a Layout?
-    // In App.tsx: HeaderBanner title={`${title} - Rank ${rank}`} is outside the tabs.
-    // So StatsView only contains the content below.
+    const streakBonus = getStreakBonus(streakCount);
+    const streakLabel = getStreakLabel(streakCount);
 
     return (
         <div className="animate-fade-in h-[480px] overflow-y-auto overflow-x-hidden custom-scrollbar landscape-content">
@@ -32,6 +33,32 @@ export const StatsView = () => {
                 <p className="font-rpg font-bold text-[#8a1c1c] tracking-widest text-sm opacity-80">
                     ID: {user.id.slice(0, 8).toUpperCase()}
                 </p>
+            </div>
+
+            {/* Streak & Gold Bar */}
+            <div className="flex items-center justify-center gap-4 mb-4">
+                {/* Streak */}
+                <div className={`
+                    flex items-center gap-2 px-3 py-1.5 rounded-full 
+                    ${streakCount >= 7
+                        ? 'bg-gradient-to-r from-orange-600 to-red-500'
+                        : streakCount >= 3
+                            ? 'bg-gradient-to-r from-orange-500 to-amber-500'
+                            : 'bg-gradient-to-r from-gray-600 to-gray-500'
+                    }
+                `}>
+                    <Flame size={18} className="text-white" />
+                    <span className="font-rpg font-bold text-white">{streakCount}</span>
+                    {streakBonus > 0 && (
+                        <span className="text-xs text-white/80">+{Math.round(streakBonus * 100)}% XP</span>
+                    )}
+                </div>
+
+                {/* Gold */}
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-yellow-600 to-amber-500">
+                    <Coins size={18} className="text-yellow-100" />
+                    <span className="font-rpg font-bold text-white">{gold}</span>
+                </div>
             </div>
 
             {/* Stats + Avatar Section */}
@@ -67,3 +94,4 @@ export const StatsView = () => {
         </div>
     );
 };
+

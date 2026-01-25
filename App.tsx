@@ -12,6 +12,7 @@ import { MissionsView } from './src/components/views/MissionsView';
 import { IntegrationsView } from './src/components/views/IntegrationsView';
 import { QrCodeView } from './src/components/views/QrCodeView';
 import { AdminView } from './src/components/views/AdminView';
+import { AchievementsView } from './src/components/views/AchievementsView';
 
 export default function App() {
   const { user, profile, authLoading, profileLoading, signInWithGoogle, signOut, getTitle, getRank } = useGame();
@@ -101,6 +102,7 @@ function AppContent({ activeTab, setActiveTab }: { activeTab: Tab, setActiveTab:
           {activeTab === 'missions' && <MissionsView />}
           {activeTab === 'integrations' && <IntegrationsView />}
           {activeTab === 'qr' && <QrCodeView />}
+          {activeTab === 'achievements' && <AchievementsView />}
           {activeTab === 'admin' && <AdminView />}
 
         </div>

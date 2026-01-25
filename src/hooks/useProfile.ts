@@ -31,14 +31,52 @@ export function useProfile(user: User | null) {
                 return;
             }
 
-            // Check for daily reset
             const today = new Date().toISOString().split('T')[0];
+            const updates: Partial<Profile> = {};
+            let profileData = { ...data };
+
+            // Check for daily reset of study XP
             if (data.last_date !== today) {
-                await updateProfile({ today_study_xp: 0, last_date: today });
-                setProfile({ ...data, today_study_xp: 0, last_date: today });
-            } else {
-                setProfile(data);
+                updates.today_study_xp = 0;
+                updates.last_date = today;
+                profileData.today_study_xp = 0;
+                profileData.last_date = today;
             }
+
+            // Check and update streak
+            const streakLastDate = data.streak_last_date;
+            if (streakLastDate !== today) {
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+                if (streakLastDate === yesterdayStr) {
+                    // User logged in yesterday - increment streak
+                    updates.streak_count = (data.streak_count || 0) + 1;
+                    updates.streak_last_date = today;
+                    profileData.streak_count = updates.streak_count;
+                    profileData.streak_last_date = today;
+                } else if (!streakLastDate) {
+                    // First time - start streak at 1
+                    updates.streak_count = 1;
+                    updates.streak_last_date = today;
+                    profileData.streak_count = 1;
+                    profileData.streak_last_date = today;
+                } else {
+                    // Missed a day - reset streak to 1
+                    updates.streak_count = 1;
+                    updates.streak_last_date = today;
+                    profileData.streak_count = 1;
+                    profileData.streak_last_date = today;
+                }
+            }
+
+            // Apply updates if any
+            if (Object.keys(updates).length > 0) {
+                await updateProfile(updates);
+            }
+
+            setProfile(profileData);
         } catch (error) {
             console.error('Error:', error);
         } finally {

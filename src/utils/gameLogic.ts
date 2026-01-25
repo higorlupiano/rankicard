@@ -55,3 +55,22 @@ export const formatTime = (seconds: number): string => {
     const secs = seconds % 60;
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 };
+
+// --- STREAK SYSTEM ---
+export const getStreakBonus = (streakDays: number): number => {
+    // Returns XP multiplier bonus (e.g., 0.05 = 5% bonus)
+    if (streakDays >= 30) return 0.25; // 25% bonus
+    if (streakDays >= 14) return 0.20; // 20% bonus
+    if (streakDays >= 7) return 0.15;  // 15% bonus
+    if (streakDays >= 3) return 0.10;  // 10% bonus
+    if (streakDays >= 1) return 0.05;  // 5% bonus
+    return 0;
+};
+
+export const getStreakLabel = (streakDays: number): string => {
+    if (streakDays >= 30) return '🔥 Lendário';
+    if (streakDays >= 14) return '🔥 Épico';
+    if (streakDays >= 7) return '🔥 Semana';
+    if (streakDays >= 3) return '🔥 Trio';
+    return '🔥';
+};
