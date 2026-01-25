@@ -61,7 +61,7 @@ export const GuildView = () => {
     // User is in a guild - show guild details
     if (myGuild) {
         return (
-            <div className="w-full animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
+            <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
                 {/* Guild Header */}
                 <div className="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 rounded-lg p-4 mb-4 border border-purple-500/30">
                     <div className="flex items-center gap-3">
@@ -143,7 +143,7 @@ export const GuildView = () => {
 
     // User is not in a guild - show create/join
     return (
-        <div className="w-full animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
+        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2 text-yellow-100">

@@ -33,7 +33,7 @@ export const MissionsView = () => {
     };
 
     return (
-        <div className="w-full animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
+        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
             {/* Mission Complete Animation */}
             {completedMission && (
                 <MissionCompleteAnimation

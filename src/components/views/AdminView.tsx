@@ -7,7 +7,7 @@ export const AdminView = () => {
     if (!profile?.is_admin || !user) return null;
 
     return (
-        <div className="w-full animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
+        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
             <div className="bg-gradient-to-b from-[#e6d5ac] to-[#d4c196] rounded-lg p-4 border-2 border-purple-600 shadow-lg">
                 <div className="flex items-center gap-2 mb-4 pb-2 border-b border-purple-600/30">
                     <span className="text-2xl">👑</span>

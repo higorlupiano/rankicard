@@ -102,7 +102,7 @@ function AppContent({ activeTab, setActiveTab }: { activeTab: Tab, setActiveTab:
   const title = getTitle(currentLevel);
 
   return (
-    <div className="min-h-[100dvh] bg-black flex items-start justify-center p-2 sm:p-4 overflow-auto relative landscape-container">
+    <div className="min-h-[100dvh] bg-black flex items-start justify-center p-1 sm:p-2 overflow-auto relative landscape-container">
       {/* Onboarding Modal */}
       {showOnboarding && (
         <OnboardingModal onComplete={handleOnboardingComplete} />

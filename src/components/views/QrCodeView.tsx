@@ -8,7 +8,7 @@ export const QrCodeView = () => {
     if (!user) return null;
 
     return (
-        <div className="w-full flex flex-col items-center justify-center animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
+        <div className="w-full flex flex-col items-center justify-center animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
             <h2 className="font-rpg text-xl text-[#5c4033] mb-6">Seu QR Code</h2>
             <div className="bg-white p-6 rounded-lg border-4 border-[#8a1c1c] shadow-lg">
                 <QRCode

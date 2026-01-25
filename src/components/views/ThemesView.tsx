@@ -47,7 +47,7 @@ export const ThemesView = () => {
     }
 
     return (
-        <div className="w-full animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
+        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2 text-yellow-100">

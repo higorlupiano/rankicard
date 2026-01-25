@@ -31,7 +31,7 @@ export const IntegrationsView = () => {
     const currentTodayStudyXP = profile?.today_study_xp || 0;
 
     return (
-        <div className="w-full animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
+        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
             <h2 className="font-rpg text-xl text-[#5c4033] text-center mb-4 lg:mb-2">Integrações</h2>
 
             <div className="space-y-4 landscape-integrations">

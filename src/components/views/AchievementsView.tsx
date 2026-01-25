@@ -44,7 +44,7 @@ export const AchievementsView = () => {
     }
 
     return (
-        <div className="w-full animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
+        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
             {/* New unlock notification */}
             {newUnlock && (
                 <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-yellow-600 to-amber-500 text-white px-6 py-3 rounded-lg shadow-xl animate-bounce">

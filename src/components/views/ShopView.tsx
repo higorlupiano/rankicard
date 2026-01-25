@@ -54,7 +54,7 @@ export const ShopView = () => {
     }
 
     return (
-        <div className="w-full animate-fade-in h-[480px] overflow-y-auto custom-scrollbar landscape-content">
+        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
             {/* Purchase message notification */}
             {purchaseMessage && (
                 <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-green-600 to-emerald-500 text-white px-6 py-3 rounded-lg shadow-xl">
