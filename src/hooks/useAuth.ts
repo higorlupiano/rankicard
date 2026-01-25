@@ -45,7 +45,7 @@ export function useAuth() {
         // Use native deep link for mobile platforms, web URL for browser
         const isNative = Capacitor.isNativePlatform();
         const redirectUrl = isNative
-            ? 'com.rankicard.app://'
+            ? 'com.rankicard.app://auth/callback'
             : 'https://rankicard.vercel.app';
 
         if (isNative) {
