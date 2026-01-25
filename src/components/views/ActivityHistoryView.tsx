@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGame } from '../../contexts/GameContext';
 import { useActivityLog } from '../../hooks/useActivityLog';
+import { ViewContainer } from '../ui';
 import { History, Loader2, Star, Coins } from 'lucide-react';
 
 export const ActivityHistoryView = () => {
@@ -25,7 +26,7 @@ export const ActivityHistoryView = () => {
     }
 
     return (
-        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+        <ViewContainer>
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2 text-yellow-100">
@@ -97,6 +98,6 @@ export const ActivityHistoryView = () => {
                     <p className="text-sm mt-1">Suas ações aparecerão aqui!</p>
                 </div>
             )}
-        </div>
+        </ViewContainer>
     );
 };

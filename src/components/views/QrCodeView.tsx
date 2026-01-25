@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGame } from '../../contexts/GameContext';
 import QRCode from 'react-qr-code';
+import { ViewContainer } from '../ui';
 
 export const QrCodeView = () => {
     const { user } = useGame();
@@ -8,7 +9,7 @@ export const QrCodeView = () => {
     if (!user) return null;
 
     return (
-        <div className="w-full flex flex-col items-center justify-center animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+        <ViewContainer centered>
             <h2 className="font-rpg text-xl text-[#5c4033] mb-6">Seu QR Code</h2>
             <div className="bg-white p-6 rounded-lg border-4 border-[#8a1c1c] shadow-lg">
                 <QRCode
@@ -23,6 +24,6 @@ export const QrCodeView = () => {
             <p className="font-rpg text-xs mt-2 text-[#5c4033]/70">
                 Use este código para identificação
             </p>
-        </div>
+        </ViewContainer>
     );
 };

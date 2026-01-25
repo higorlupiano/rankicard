@@ -3,6 +3,7 @@ import { useGame } from '../../contexts/GameContext';
 import { useShop } from '../../hooks/useShop';
 import { ShopItemCard } from '../game/ShopItemCard';
 import { ShoppingBag, Coins, Loader2, Package } from 'lucide-react';
+import { ViewContainer } from '../ui';
 
 export const ShopView = () => {
     const { user, profile, refreshProfile } = useGame();
@@ -54,7 +55,7 @@ export const ShopView = () => {
     }
 
     return (
-        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+        <ViewContainer>
             {/* Purchase message notification */}
             {purchaseMessage && (
                 <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-green-600 to-emerald-500 text-white px-6 py-3 rounded-lg shadow-xl">
@@ -153,6 +154,6 @@ export const ShopView = () => {
                     <p>Nenhum item disponível nesta categoria</p>
                 </div>
             )}
-        </div>
+        </ViewContainer>
     );
 };

@@ -3,6 +3,7 @@ import { useGame } from '../../contexts/GameContext';
 import { useShop } from '../../hooks/useShop';
 import { Package, Check, Clock, Sparkles, Crown, Loader2 } from 'lucide-react';
 import { UserItem } from '../../lib/supabase';
+import { ViewContainer } from '../ui';
 
 export const InventoryView = () => {
     const { user, profile, refreshProfile } = useGame();
@@ -71,7 +72,7 @@ export const InventoryView = () => {
     }
 
     return (
-        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+        <ViewContainer>
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2 text-yellow-100">
@@ -247,6 +248,6 @@ export const InventoryView = () => {
                     <p className="text-sm mt-1">Visite a Loja para comprar itens!</p>
                 </div>
             )}
-        </div>
+        </ViewContainer>
     );
 };

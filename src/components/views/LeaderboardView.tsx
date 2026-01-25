@@ -3,6 +3,7 @@ import { useGame } from '../../contexts/GameContext';
 import { useLeaderboard, LeaderboardFilter } from '../../hooks/useLeaderboard';
 import { Trophy, Loader2, Crown, Flame, Star } from 'lucide-react';
 import { getRank } from '../../utils/gameLogic';
+import { ViewContainer } from '../ui';
 
 export const LeaderboardView = () => {
     const { user } = useGame();
@@ -33,7 +34,7 @@ export const LeaderboardView = () => {
     }
 
     return (
-        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+        <ViewContainer>
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2 text-yellow-100">
@@ -151,6 +152,6 @@ export const LeaderboardView = () => {
                     <p>Nenhum jogador encontrado</p>
                 </div>
             )}
-        </div>
+        </ViewContainer>
     );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../../contexts/GameContext';
 import { useThemes, Theme } from '../../hooks/useThemes';
+import { ViewContainer } from '../ui';
 import { Palette, Check, Lock, Loader2, Coins } from 'lucide-react';
 
 export const ThemesView = () => {
@@ -47,7 +48,7 @@ export const ThemesView = () => {
     }
 
     return (
-        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+        <ViewContainer>
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2 text-yellow-100">
@@ -169,6 +170,6 @@ export const ThemesView = () => {
                     );
                 })}
             </div>
-        </div>
+        </ViewContainer>
     );
 };

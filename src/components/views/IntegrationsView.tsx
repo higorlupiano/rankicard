@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGame } from '../../contexts/GameContext';
 import { StravaPanel, SpotifyPanel, StudyTimer } from '../game';
-
+import { ViewContainer } from '../ui';
 export const IntegrationsView = () => {
     const {
         profile,
@@ -31,7 +31,7 @@ export const IntegrationsView = () => {
     const currentTodayStudyXP = profile?.today_study_xp || 0;
 
     return (
-        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+        <ViewContainer>
             <h2 className="font-rpg text-xl text-[#5c4033] text-center mb-4 lg:mb-2">Integrações</h2>
 
             <div className="space-y-4 landscape-integrations">
@@ -64,6 +64,6 @@ export const IntegrationsView = () => {
                     setSessionXP={setSessionXP}
                 />
             </div>
-        </div>
+        </ViewContainer>
     );
 };

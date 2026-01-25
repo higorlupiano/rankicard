@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useGame } from '../../contexts/GameContext';
 import { getXpProgress, getRank, getTitle, STUDY_DAILY_CAP, getStreakBonus, getStreakLabel } from '../../utils/gameLogic';
-import { StatBox, ProgressBar } from '../ui';
+import { StatBox, ProgressBar, ViewContainer } from '../ui';
 import { AvatarFrame } from '../player';
 import { Flame, Coins } from 'lucide-react';
 import { XPChart } from '../ui/XPChart';
@@ -57,7 +57,7 @@ export const StatsView = () => {
     const streakLabel = getStreakLabel(streakCount);
 
     return (
-        <div className="animate-fade-in overflow-x-hidden landscape-content">
+        <ViewContainer>
             {/* Player Name */}
             <div className="text-center mb-4">
                 <h2 className="text-4xl md:text-5xl font-rpg font-black text-transparent bg-clip-text bg-gradient-to-b from-[#5c4033] to-[#2c1810] drop-shadow-sm mb-1">
@@ -131,6 +131,6 @@ export const StatsView = () => {
             <div className="bg-black/80 text-green-400 p-2 rounded font-mono text-xs border border-gray-700 text-center mb-4">
                 {logMsg}
             </div>
-        </div>
+        </ViewContainer>
     );
 };

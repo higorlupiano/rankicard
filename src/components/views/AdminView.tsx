@@ -1,13 +1,13 @@
 import React from 'react';
 import { useGame } from '../../contexts/GameContext';
-
+import { ViewContainer } from '../ui';
 export const AdminView = () => {
     const { user, profile } = useGame();
 
     if (!profile?.is_admin || !user) return null;
 
     return (
-        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+        <ViewContainer>
             <div className="bg-gradient-to-b from-[#e6d5ac] to-[#d4c196] rounded-lg p-4 border-2 border-purple-600 shadow-lg">
                 <div className="flex items-center gap-2 mb-4 pb-2 border-b border-purple-600/30">
                     <span className="text-2xl">👑</span>
@@ -48,6 +48,6 @@ export const AdminView = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </ViewContainer>
     );
 };

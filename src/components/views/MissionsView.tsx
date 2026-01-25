@@ -3,6 +3,7 @@ import { useGame } from '../../contexts/GameContext';
 import { getRank } from '../../utils/gameLogic';
 import { MissionsPanel } from '../game';
 import { MissionCompleteAnimation } from '../ui/MissionCompleteAnimation';
+import { ViewContainer } from '../ui';
 
 interface CompletedMission {
     name: string;
@@ -33,7 +34,7 @@ export const MissionsView = () => {
     };
 
     return (
-        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+        <ViewContainer>
             {/* Mission Complete Animation */}
             {completedMission && (
                 <MissionCompleteAnimation
@@ -51,6 +52,6 @@ export const MissionsView = () => {
                 onMissionComplete={handleMissionComplete}
                 onLog={setLogMsg}
             />
-        </div>
+        </ViewContainer>
     );
 };

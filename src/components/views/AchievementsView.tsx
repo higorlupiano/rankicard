@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../../contexts/GameContext';
 import { useAchievements } from '../../hooks/useAchievements';
+import { ViewContainer } from '../ui';
 import { AchievementCard } from '../game/AchievementCard';
 import { Trophy, Loader2 } from 'lucide-react';
 
@@ -44,7 +45,7 @@ export const AchievementsView = () => {
     }
 
     return (
-        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+        <ViewContainer>
             {/* New unlock notification */}
             {newUnlock && (
                 <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-yellow-600 to-amber-500 text-white px-6 py-3 rounded-lg shadow-xl animate-bounce">
@@ -106,6 +107,6 @@ export const AchievementsView = () => {
                     Nenhuma conquista nesta categoria
                 </div>
             )}
-        </div>
+        </ViewContainer>
     );
 };

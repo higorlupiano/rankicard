@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useGame } from '../../contexts/GameContext';
 import { useGuilds } from '../../hooks/useGuilds';
 import { Users, Crown, Plus, LogOut, Loader2, Trophy, Star, Shield } from 'lucide-react';
+import { ViewContainer } from '../ui';
 
 export const GuildView = () => {
     const { user } = useGame();
@@ -61,7 +62,7 @@ export const GuildView = () => {
     // User is in a guild - show guild details
     if (myGuild) {
         return (
-            <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+            <ViewContainer>
                 {/* Guild Header */}
                 <div className="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 rounded-lg p-4 mb-4 border border-purple-500/30">
                     <div className="flex items-center gap-3">
@@ -137,13 +138,13 @@ export const GuildView = () => {
                     <LogOut size={16} />
                     Sair da Guilda
                 </button>
-            </div>
+            </ViewContainer>
         );
     }
 
     // User is not in a guild - show create/join
     return (
-        <div className="w-full animate-fade-in overflow-y-auto custom-scrollbar landscape-content">
+        <ViewContainer>
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2 text-yellow-100">
@@ -263,6 +264,6 @@ export const GuildView = () => {
                     </div>
                 )}
             </div>
-        </div>
+        </ViewContainer>
     );
 };
