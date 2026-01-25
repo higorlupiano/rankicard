@@ -102,7 +102,7 @@ function AppContent({ activeTab, setActiveTab }: { activeTab: Tab, setActiveTab:
   const title = getTitle(currentLevel);
 
   return (
-    <div className="h-[100dvh] bg-black flex items-stretch justify-center p-2 sm:p-4 overflow-hidden relative landscape-container">
+    <div className="min-h-[100dvh] bg-black flex items-start justify-center p-2 sm:p-4 overflow-auto relative landscape-container">
       {/* Onboarding Modal */}
       {showOnboarding && (
         <OnboardingModal onComplete={handleOnboardingComplete} />
@@ -129,7 +129,7 @@ function AppContent({ activeTab, setActiveTab }: { activeTab: Tab, setActiveTab:
 
 
       {/* --- THE CARD --- */}
-      <div className="relative w-full max-w-[420px] shadow-2xl z-10 flex flex-col landscape-card">
+      <div className="relative w-full max-w-[420px] shadow-2xl z-10 my-2 landscape-card">
 
         {/* Layer 1: The Parchment Background */}
         <div className="absolute inset-1 sm:inset-2 bg-[#e6d5ac] rounded-sm -z-10">
@@ -144,7 +144,7 @@ function AppContent({ activeTab, setActiveTab }: { activeTab: Tab, setActiveTab:
         </div>
 
         {/* Layer 2: The Content Container */}
-        <div className="relative z-20 flex flex-col flex-1 pt-2 pb-24 px-4 sm:px-8 landscape-header overflow-hidden">
+        <div className="relative z-20 flex flex-col pt-2 pb-20 px-4 sm:px-8 landscape-header">
 
           {/* Logout Button */}
           <button
