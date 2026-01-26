@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { ErrorBoundary } from './src/components/ui';
 import { GameProvider } from './src/contexts/GameContext';
+import { ThemeProvider } from './src/contexts/ThemeContext';
 import { QueryProvider } from './src/providers/QueryProvider';
 
 const rootElement = document.getElementById('root');
@@ -16,7 +17,9 @@ root.render(
     <ErrorBoundary>
       <QueryProvider>
         <GameProvider>
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </GameProvider>
       </QueryProvider>
     </ErrorBoundary>
