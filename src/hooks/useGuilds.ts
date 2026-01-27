@@ -542,9 +542,9 @@ export function useGuilds(user: User | null) {
                 return false;
             }
 
-            // Generate unique filename
+            // Generate unique filename inside user's folder to satisfy RLS
             const fileExt = file.name.split('.').pop();
-            const fileName = `guild_${myGuild.id}_${Date.now()}.${fileExt}`;
+            const fileName = `${user.id}/guild_${myGuild.id}_${Date.now()}.${fileExt}`;
 
             // Upload to Supabase Storage (using 'avatars' bucket, organization folder recommended but trying root or guild specific prefix)
             // Assuming 'avatars' bucket exists as used in user profile
