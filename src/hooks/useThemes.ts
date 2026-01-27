@@ -120,6 +120,11 @@ export function useThemes(user: User | null) {
         loadThemes();
     }, [loadThemes]);
 
+    // Apply theme to document whenever activeTheme changes
+    useEffect(() => {
+        applyThemeToDocument(activeTheme);
+    }, [activeTheme]);
+
     // Purchase a theme
     const purchaseTheme = useCallback(async (themeId: string, price: number): Promise<boolean> => {
         if (!user) return false;
